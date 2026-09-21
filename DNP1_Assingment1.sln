@@ -1,4 +1,4 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{CA53FBDC-E760-4EC1-B739-76E05A7CBF7D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{4DA004F6-A411-4FD3-BBD2-F33F419314CD}"
@@ -6,6 +6,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryContracts", "RepositoryContracts\RepositoryContracts.csproj", "{8C1104B0-D51D-44BE-85BD-8F8E581E1DE9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InMemoryRepositories", "InMemoryRepositories\InMemoryRepositories.csproj", "{A008E193-6BC2-4185-8E86-7E270F446C3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLI", "CLI\CLI.csproj", "{C047A9AB-3761-4765-BAE5-9A97FE9C072B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,6 +18,7 @@ Global
 		{4DA004F6-A411-4FD3-BBD2-F33F419314CD} = {CA53FBDC-E760-4EC1-B739-76E05A7CBF7D}
 		{8C1104B0-D51D-44BE-85BD-8F8E581E1DE9} = {CA53FBDC-E760-4EC1-B739-76E05A7CBF7D}
 		{A008E193-6BC2-4185-8E86-7E270F446C3C} = {CA53FBDC-E760-4EC1-B739-76E05A7CBF7D}
+		{C047A9AB-3761-4765-BAE5-9A97FE9C072B} = {CA53FBDC-E760-4EC1-B739-76E05A7CBF7D}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{4DA004F6-A411-4FD3-BBD2-F33F419314CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -30,5 +33,9 @@ Global
 		{A008E193-6BC2-4185-8E86-7E270F446C3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A008E193-6BC2-4185-8E86-7E270F446C3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A008E193-6BC2-4185-8E86-7E270F446C3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C047A9AB-3761-4765-BAE5-9A97FE9C072B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C047A9AB-3761-4765-BAE5-9A97FE9C072B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C047A9AB-3761-4765-BAE5-9A97FE9C072B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C047A9AB-3761-4765-BAE5-9A97FE9C072B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
