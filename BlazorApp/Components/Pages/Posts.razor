@@ -1,0 +1,49 @@
+@page "/posts"
+@using ApiContracts
+@using BlazorApp.Services
+@inject IPostService PostService
+@inject NavigationManager NavMgr
+
+<h3>Posts</h3>
+
+@if (posts == null)
+{
+    <p>Loading posts...</p>
+}
+else if (!posts.Any())
+{
+    <p>No posts found.</p>
+}
+else
+{
+    <ul>
+        @foreach (PostDto post in posts)
+        {
+            <li>
+                <a href="/posts/@post.Id">@post.Title</a> (by @(post.AuthorUserName ?? $"User #{post.UserId}"))
+            </li>
+        }
+    </ul>
+}
+
+@if (!string.IsNullOrEmpty(errorLabel))
+{
+    <p style="color: red">@errorLabel</p>
+}
+
+@code {
+    private List<PostDto>? posts;
+    private string errorLabel = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            posts = await PostService.GetManyPostsAsync();
+        }
+        catch (Exception e)
+        {
+            errorLabel = e.Message;
+        }
+    }
+}

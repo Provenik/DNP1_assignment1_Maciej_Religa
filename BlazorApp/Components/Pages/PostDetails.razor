@@ -1,0 +1,110 @@
+@page "/posts/{Id:int}"
+@using System.Security.Claims
+@using ApiContracts
+@using BlazorApp.Services
+@inject IPostService PostService
+@inject ICommentService CommentService
+
+@if (post == null)
+{
+    <p>Loading post...</p>
+}
+else
+{
+    <h3>@post.Title</h3>
+    <p><strong>Author:</strong> @(post.AuthorUserName ?? $"User #{post.UserId}")</p>
+    <p>@post.Body</p>
+
+    <hr />
+    <h4>Comments</h4>
+    @if (post.Comments == null || !post.Comments.Any())
+    {
+        <p>No comments yet.</p>
+    }
+    else
+    {
+        <ul>
+            @foreach (CommentDto comment in post.Comments)
+            {
+                <li>
+                    <strong>@(comment.AuthorUserName ?? $"User #{comment.UserId}"):</strong> @comment.Body
+                </li>
+            }
+        </ul>
+    }
+
+    <AuthorizeView>
+        <Authorized>
+            <hr />
+            <h5>Add a Comment</h5>
+            <textarea @bind="newCommentBody"></textarea>
+            <br />
+            <button @onclick="AddCommentAsync">Submit Comment</button>
+        </Authorized>
+        <NotAuthorized>
+            <p><em>Log in to add a comment.</em></p>
+        </NotAuthorized>
+    </AuthorizeView>
+}
+
+@if (!string.IsNullOrEmpty(errorLabel))
+{
+    <p style="color: red">@errorLabel</p>
+}
+
+@code {
+    [Parameter] public int Id { get; set; }
+    [CascadingParameter] public Task<AuthenticationState> State { get; set; } = null!;
+
+    private PostDto? post;
+    private string newCommentBody = "";
+    private string errorLabel = "";
+    private int userId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        AuthenticationState authenticationState = await State;
+        ClaimsPrincipal claimsPrincipal = authenticationState.User;
+        if (claimsPrincipal.Identity is not null && claimsPrincipal.Identity.IsAuthenticated)
+        {
+            IEnumerable<Claim> claims = claimsPrincipal.Claims;
+            string userIdAsString = claims.Single(c => c.Type == "Id").Value;
+            userId = int.Parse(userIdAsString);
+        }
+
+        await LoadPostAsync();
+    }
+
+    private async Task LoadPostAsync()
+    {
+        try
+        {
+            post = await PostService.GetSinglePostAsync(Id, true);
+        }
+        catch (Exception e)
+        {
+            errorLabel = e.Message;
+        }
+    }
+
+    private async Task AddCommentAsync()
+    {
+        errorLabel = "";
+        try
+        {
+            CreateCommentDto request = new()
+            {
+                Body = newCommentBody,
+                UserId = userId,
+                PostId = Id
+            };
+            await CommentService.AddCommentAsync(request);
+            newCommentBody = "";
+            await LoadPostAsync();
+        }
+        catch (Exception e)
+        {
+            errorLabel = e.Message;
+        }
+    }
+}
